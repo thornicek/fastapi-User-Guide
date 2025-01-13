@@ -10,7 +10,7 @@ class Item(BaseModel):
     description: Union[str, None] = None
     price: float
     tax: Union[float, None] = None
-    tags = list = []
+    tags = set[str] = set()
 
 
 @app.put("/items/{item_id}")
