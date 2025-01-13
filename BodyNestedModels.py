@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List
 
 from fastapi import FastAPI
 from pydantic import BaseModel, HttpUrl
@@ -11,22 +11,6 @@ class Image(BaseModel):
     name: str
 
 
-class Item(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: Union[float, None] = None
-    tags: set[str] = set()
-    image: Union[list[Image], None] = None
-
-
-class Offer(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    items: list[Item]
-
-
-@app.post("/offers/")
-async def create_offer(offer: Offer):
-    return offer
+@app.post("/images/multiple/")
+async def create_multiple_images(images: List[Image]):
+    return images
