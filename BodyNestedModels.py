@@ -1,13 +1,13 @@
 from typing import Union
 
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 app = FastAPI()
 
 
 class Image(BaseModel):
-    url: str
+    url: HttpUrl
     name: str
 
 
@@ -16,7 +16,7 @@ class Item(BaseModel):
     description: Union[str, None] = None
     price: float
     tax: Union[float, None] = None
-    tags : set[str] = set()
+    tags: set[str] = set()
     image: Union[Image, None] = None
 
 
