@@ -1,22 +1,19 @@
 from typing import Any, Union
 
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 app = FastAPI()
 
 
-class Item(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: Union[float, None] = None
-    tags: list[str] = []
+class UserIn(BaseModel):
+    username: str
+    password: str
+    email: EmailStr
+    full_name: Union[str, None] = None
 
 
-@app.get("/items/", response_model=list[Item])
-async def read_items() -> Any:
-    return [
-        {"name": "Portal Gun", "price": 42.0},
-        {"name": "Plumbus", "price": 32.0}
-    ]
+# Don't do this in production!
+@app.post("/user/")
+async def create_user(user: UserIn) -> UserIn:
+    return user
