@@ -13,7 +13,12 @@ class UserIn(BaseModel):
     full_name: Union[str, None] = None
 
 
-# Don't do this in production!
-@app.post("/user/")
-async def create_user(user: UserIn) -> UserIn:
+class UserOut(BaseModel):
+    username: str
+    email: EmailStr
+    full_name: Union[str, None] = None
+
+
+@app.post("/user/", response_model=UserOut)
+async def create_user(user: UserIn) -> Any:
     return user
