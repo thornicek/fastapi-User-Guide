@@ -1,24 +1,23 @@
-from typing import Any, Union
+from typing import Union
 
 from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
 
+
 app = FastAPI()
 
 
-class UserIn(BaseModel):
+class BaseUser(BaseModel):
     username: str
+    email: EmailStr
+    full_name: Union[str, None] = None
+
+
+class UserIn(BaseUser):
     password: str
-    email: EmailStr
-    full_name: Union[str, None] = None
 
 
-class UserOut(BaseModel):
-    username: str
-    email: EmailStr
-    full_name: Union[str, None] = None
-
-
-@app.post("/user/", response_model=UserOut)
-async def create_user(user: UserIn) -> Any:
+@app.post("/user/")
+async def create_user(user: UserIn) -> BaseUser:
     return user
+
