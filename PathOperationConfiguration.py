@@ -1,19 +1,20 @@
-from typing import Union
+from enum import Enum
 
-from fastapi import FastAPI, status
-from pydantic import BaseModel
+from fastapi import FastAPI
 
 app = FastAPI()
 
 
-class Item(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: Union[float, None] = None
-    tags: set[str] = set()
+class Tags(Enum):
+    items = "items"
+    users = "users"
 
 
-@app.post("/items/", response_model=Item, status_code=status.HTTP_201_CREATED)
-async def create_item(item: Item):
-    return item
+@app.get("/items/", tags=[Tags.items])
+async def get_items():
+    return ["Portal gun", "Plumbus"]
+
+
+@app.get("/users/", tags=[Tags.users])
+async def read_users():
+    return ["Rick", "Morty"]
